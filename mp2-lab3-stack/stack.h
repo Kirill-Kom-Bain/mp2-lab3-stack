@@ -6,14 +6,14 @@ class TDynamicStack {
 	size_t sz;
 	int top_id;
 	T* pMem;
-
+public:
 	//конструктор поумолчанию и инициализации
 	TDynamicStack(size_t _sz = 1) :sz(_sz), top_id(-1) {
 		pMem = new T[sz];
 	}
 
 	//конструктор копирования
-	TDynamicStack(const& TDynamicStack st) {
+	TDynamicStack(const TDynamicStack& st) {
 		sz = st.sz;
 		top_id = st.top_id;
 		pMem = new T[sz];
@@ -28,7 +28,7 @@ class TDynamicStack {
 	}
 
 	//конструктор присваивания
-	TDynamicStack(const&& TDynamicStack st) {
+	TDynamicStack(const TDynamicStack<T>&& st) {
 		sz = st.sz;
 		top_id = st.top_id;
 		pMem = st.pMem;
@@ -66,6 +66,10 @@ class TDynamicStack {
 		return *this;
 	}
 
+	TDynamicStack<T>& operator !=(const TDynamicStack& st) {
+		return !(*this==st)
+	}
+
 	//пуст ли стек
 	bool IsEmpty() {
 		if (top_id == -1) { return true; }
@@ -80,7 +84,7 @@ class TDynamicStack {
 
 
 	//добавить эл-т в стек
-	void push(const<T>& el) {
+	void push(const T& el) {
 		if (IsFull) {
 			TDynamicStack<T> tmp(*this);
 			delete[]pMem;
@@ -95,7 +99,7 @@ class TDynamicStack {
 	}
 
 	//вывести эл-т из стека
-	<T>& pop() {
+	T& pop() {
 		if (IsEmpty) { throw "стек пуст"; }
 		return pMem[top_id--];
 	}
