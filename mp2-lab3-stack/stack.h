@@ -17,7 +17,7 @@ public:
 		sz = st.sz;
 		top_id = st.top_id;
 		pMem = new T[sz];
-		for (int i = 0; i < top_id; i++) {
+		for (int i = 0; i <= top_id; i++) {
 			pMem[i] = st.pMem[i];
 		}
 	}
@@ -90,7 +90,7 @@ public:
 			delete[]pMem;
 			sz *= 2;
 			pMem = new T[sz];
-			for (int i = 0; i < top_id; i++) {
+			for (int i = 0; i <= top_id; i++) {
 				pMem[i] = tmp.pMem[i];
 			}
 		}
@@ -102,5 +102,10 @@ public:
 	T& pop() {
 		if (IsEmpty()) { throw "стек пуст"; }
 		return pMem[top_id--];
+	}
+
+	T& top() {
+		if (IsEmpty()) { throw "стек пуст"; }
+		return pMem[top_id];
 	}
 };

@@ -42,7 +42,9 @@ public:
 		el.top_id = 0;
 		el.pMem = nullptr;
 	}
-
+	int getsize() {
+		return size;
+	}
 	Container& operator = (const Container& el) {
 		if (this != &el) {
 			if (size != el.size) {
@@ -140,7 +142,7 @@ public:
 
 template <typename T>
 std::ostream& operator << (std::ostream& os, const Container<T>& el) {
-	os << "size " << el.size << "\n";
+	//os << "size " << el.size << "\n";
 	for (int i = 0; i < el.size; i++) {
 		os << el.pMem[i] << " ";
 	}

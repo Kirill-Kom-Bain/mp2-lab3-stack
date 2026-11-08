@@ -10,7 +10,7 @@ enum TokenType {
 };
 
 struct Token {
-	std::string Str;
+	std::string Str = "";
 	double Val;
 	TokenType type;
 };
