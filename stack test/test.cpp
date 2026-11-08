@@ -74,7 +74,7 @@ TEST(TDynamicStack, can_appropriate_stack_with_different_leight) {
 
 }
 
-TEST(TDynamicVector, can_copy_stack)
+TEST(TDynamicStack, can_copy_stack)
 {
 	TDynamicStack<int> st(7);
 	for (int i = 0; i < 7; i++) {
@@ -84,7 +84,7 @@ TEST(TDynamicVector, can_copy_stack)
 	ASSERT_EQ(stcp, st);
 }
 
-TEST(TDynamicVector, stack_copy_have_own_memory)
+TEST(TDynamicStack, stack_copy_have_own_memory)
 {
 	TDynamicStack<int> st(7);
 	for (int i = 0; i < 7; i++) {
@@ -126,17 +126,17 @@ TEST(TDynamicStack, compare_stacks_with_not_equeal_size_return_false) {
 	for (int i = 0; i < 6; i++) {
 		(st_.push(i));
 	}
-	ASSERT_ANY_THROW(st_ == st);
+	
 	ASSERT_NE(st_, st);
 }
 
-TEST(TDynamicStack, cant_push_in_full_stack) {
+/*TEST(TDynamicStack, cant_push_in_full_stack) {
 	TDynamicStack<int> st(7); {}
 	for (int i = 0; i < 7; i++) {
 		(st.push(i));
 	}
 	ASSERT_ANY_THROW(st.push(9));
-}
+}*/
 
 TEST(TDynamicStack, cant_pop_in_empty_stack) {
 	TDynamicStack<int> st(7); {}

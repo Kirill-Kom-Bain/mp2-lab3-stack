@@ -35,15 +35,15 @@ public:
 		st.pMem = nullptr;
 	}
 	//оператор равенства 
-	bool operator ==(const TDynamicStack& st) {
-		if (sz = st.sz) {
+	bool operator ==(const TDynamicStack& st)const {
+		if (sz == st.sz) {
 			if (top_id == st.top_id) {
 				for (int i = 0; i < top_id; i++) {
 					if (pMem[i] != st.pMem[i]) {
-						return fase;
+						return false;
 					}
 				}
-				return true
+				return true;
 			}
 		}
 		return false;
@@ -59,15 +59,15 @@ public:
 				pMem = new T[sz];
 			}
 			top_id = st.top_id;
-			for (int i = 0; i < size; i++) {
+			for (int i = 0; i < sz; i++) {
 				pMem[i] = st.pMem[i];
 			}
 		}
 		return *this;
 	}
 
-	TDynamicStack<T>& operator !=(const TDynamicStack& st) {
-		return !(*this==st)
+	 bool operator !=(const TDynamicStack& st)const {
+		 return !(*this == st);
 	}
 
 	//пуст ли стек
@@ -85,7 +85,7 @@ public:
 
 	//добавить эл-т в стек
 	void push(const T& el) {
-		if (IsFull) {
+		if (IsFull()) {
 			TDynamicStack<T> tmp(*this);
 			delete[]pMem;
 			sz *= 2;
@@ -100,7 +100,7 @@ public:
 
 	//вывести эл-т из стека
 	T& pop() {
-		if (IsEmpty) { throw "стек пуст"; }
+		if (IsEmpty()) { throw "стек пуст"; }
 		return pMem[top_id--];
 	}
 };
