@@ -3,6 +3,7 @@
 #include <string.h>
 
 enum TokenType {
+	trash,
 	number,
 	operation,
 	opBr,
@@ -10,11 +11,13 @@ enum TokenType {
 };
 
 struct Token {
-	std::string Str = "";
+	std::string Str ="";
 	double Val;
-	TokenType type;
+	TokenType type = trash;
 };
 inline std::ostream& operator << (std::ostream& ostr, const Token& t) {
-	ostr << t.Str;
+	if (t.type != trash) {
+		ostr << t.Str;
+	}
 	return ostr;
 	 }

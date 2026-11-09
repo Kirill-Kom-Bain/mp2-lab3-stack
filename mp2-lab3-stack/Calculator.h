@@ -21,6 +21,7 @@ public:
 	Container<Token>& get_post_cont() {
 		return post_cont;
 	}
+	//парс инфиксной строки
 	void infix_to_cont() {
 		inf_cont.resize(infix.length());
 		int i = 0;
@@ -81,7 +82,7 @@ public:
 
 	void infix_cont_to_postfix_cont() {
 		TDynamicStack<Token>operation_stack;
-		post_cont.resize(inf_cont.getsize());
+		//post_cont.resize(inf_cont.getsize());
 		for (int i = 0; i < inf_cont.getsize(); i++) {
 			//если число, то сразу кладем в стек
 			if (inf_cont[i].type == number) {
@@ -119,6 +120,11 @@ public:
 			if (inf_cont[i].type == clBr) {
 				while (!operation_stack.IsEmpty() && operation_stack.top().Str != "(") {
 					post_cont.push_back(operation_stack.pop());
+					//if (operation_stack.top().Str == "") { operation_stack.pop();}
+					/*Token a = operation_stack.pop();
+					post_cont.push_back(a);
+					post_cont.push_back(a);
+					*/
 				}
 				if (!operation_stack.IsEmpty() && operation_stack.top().Str == "(") {
 					operation_stack.pop();
@@ -131,11 +137,35 @@ public:
 		//когда прошлись по всем операциям, пока стек не пуст переносим все операции в контейнер
 		while (!operation_stack.IsEmpty()) {
 			Token op = operation_stack.pop();
-			if (op.type == operation) {
+			if (op.type == operation && op.Str!="") {
 				post_cont.push_back(op);
 			}
 		}
+		
+		//отловить лишние пробелы 
+		//вывод
+		/* 3.5
+		4.2
+		2
+		1
+		-
+		*
+		+
+		3.5 4.2 2 1 - ' ' ' ' * + ' '
+		*/
+		for (int i = 0; i < post_cont.getsize(); i++) {
+			if (post_cont[i].Str != "") {
+			std::cout << post_cont[i] << "\n";
+		}
+			
+			if (post_cont[i].Str == ""){//&& post_cont[i + 1].Str == " ") {
+				post_cont[i].Str = "'";
+			}
+			
+		}
 	}
-
+	// почему-то выводится - (5 пробелов) * +
+	// откуда берутся пробелы???
+	//
 
 };
