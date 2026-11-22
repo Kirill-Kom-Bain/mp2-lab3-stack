@@ -12,9 +12,11 @@ int main() {
 	Calculator a("3.5+4.2*(2-1)");
 	
 	a.infix_to_cont();
-	std::cout << a.get_inf_cont();
-	
+	std::cout << a.get_inf_cont()<<"\n";
+	std::cout << a.get_inf_cont().cont_to_string() << "\n";
+
 	a.infix_cont_to_postfix_cont();
-	std::cout << a.get_post_cont();
+	std::cout << a.get_post_cont() << "\n";
+	std::cout << a.get_post_cont().cont_to_string() << "\n";
 
 }

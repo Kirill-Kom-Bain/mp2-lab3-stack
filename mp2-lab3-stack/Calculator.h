@@ -1,8 +1,10 @@
 #pragma once
 #include"Token.h"
 #include <iostream>
-#include <string.h>
+#include "stack.h"
+#include <string>
 #include "Cont.h"
+
 
 
 
@@ -15,13 +17,23 @@ public:
 		inf_cont.clear();
 		post_cont.clear();
 	}
+	//получить инфиксный контейнер
 	Container<Token>& get_inf_cont() {
 		return inf_cont;
 	}
+	//получить инфиксную строку
+	std::string& get_infix() {
+		return infix;
+	}
+	//получить постфиксный контейнер
 	Container<Token>& get_post_cont() {
 		return post_cont;
 	}
-	//парс инфиксной строки
+	//получить постфиксную строку
+	std::string& get_postfix() {
+		return postfix;
+	}
+	//перевод в инфиксный контенер контейнер из инфиксной строки
 	void infix_to_cont() {
 		inf_cont.resize(infix.length()+2);
 		int i = 0;
@@ -32,7 +44,7 @@ public:
 
 		Token _clBr;
 		_clBr.Prioryty = 0;
-		_clBr.type = opBr;
+		_clBr.type = clBr;
 		_clBr.Str = ")";
 
 		inf_cont.push_back(_opBr);
@@ -96,7 +108,7 @@ public:
 		}
 		inf_cont.push_back(_clBr);
 	}
-
+	//перевод в постфиксный контейнер из инфиксного контейнера
 	void infix_cont_to_postfix_cont() {
 		TDynamicStack<Token>operation_stack;
 		for (int i = 0; i < inf_cont.getsize(); i++) {
@@ -152,11 +164,82 @@ public:
 		//когда прошлись по всем операци€м, пока стек не пуст переносим все операции в контейнер
 		while (!operation_stack.IsEmpty()) {
 			Token op = operation_stack.pop();
+			if (op.type == opBr) {
+				throw "ERR неверный ввод операций, есть открыта€ скобка, но нет закрытой";
+			}
 			if (op.type == operation && op.Str!="") {
 				post_cont.push_back(op);
 			}
 		}
 	}
-	
+	//вычислить значение постфиксного контейнера
+	double Calculate_postfix() {
+		TDynamicStack<double> num;
+		for (int i = 0; i < post_cont.getsize(); i++) {
+			if (post_cont[i].type == number) {
+				num.push(post_cont[i].Val);
+			}
+			if (post_cont[i].type == operation) {
+				
+				double second_operand = num.pop(),res;
+				double first_operand = num.pop();
+				if (post_cont[i].Str == "+") {
+					res = (first_operand + second_operand);
+				}
+				if (post_cont[i].Str == "-") {
+					res = (first_operand - second_operand);
+				}
+				if (post_cont[i].Str == "*") {
+					res =(first_operand * second_operand);
+				}
+				if (post_cont[i].Str == "/") {
+					res = (first_operand / second_operand);
+				}
+				num.push(res);
+			}
+		}
+		double final = num.pop();
+		if (num.IsEmpty()) {
+			return final;
+		}
+		else { throw "Ќедотсаточно операций в стеке"; }
+	}
+	///вычислить значение
+	//отличаетс€ от  предыдущего метода тем, что в нем выполн€етс€ автоматический перевод строки в контейнеры
+	double Calculate() {
+		inf_cont.clear();
+		post_cont.clear();
+		this->infix_to_cont();
+		this->infix_cont_to_postfix_cont();
+		TDynamicStack<double> num;
+		for (int i = 0; i < post_cont.getsize(); i++) {
+			if (post_cont[i].type == number) {
+				num.push(post_cont[i].Val);
+			}
+			if (post_cont[i].type == operation) {
 
+				double second_operand = num.pop(), res;
+				double first_operand = num.pop();
+				if (post_cont[i].Str == "+") {
+					res = (first_operand + second_operand);
+				}
+				if (post_cont[i].Str == "-") {
+					res = (first_operand - second_operand);
+				}
+				if (post_cont[i].Str == "*") {
+					res = (first_operand * second_operand);
+				}
+				if (post_cont[i].Str == "/") {
+					res = (first_operand / second_operand);
+				}
+				num.push(res);
+			}
+		}
+		double final = num.pop();
+		if (num.IsEmpty()) {
+			return final;
+		}
+		else { throw "Ќедотсаточно операций в стеке"; }
+	}
 };
+

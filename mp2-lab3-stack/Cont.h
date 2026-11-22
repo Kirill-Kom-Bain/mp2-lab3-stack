@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <sstream>
+#include <string>
 
 template <typename T>
 class Container;
@@ -137,6 +139,14 @@ public:
 		size = 0;
 		top_id = 0;
 	}
+
+	std::string cont_to_string() {
+		std::ostringstream os;
+		for (int i = 0; i < top_id; i++) {
+			os << pMem[i];
+		}
+		return os.str();
+	}
 };
 
 
@@ -160,4 +170,7 @@ std::istream& operator >> (std::istream& is, Container<T>& el) {
 		is >> el.pMem[i];
 	}
 	return is;
+
+
+	
 }
